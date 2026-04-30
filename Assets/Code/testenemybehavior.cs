@@ -195,7 +195,6 @@ public class testenemybehavior : MonoBehaviour
                 
         if(other_collider.gameObject == shredder)
         {
-            
             hp_manager.hp -= 1;
         }
     }
