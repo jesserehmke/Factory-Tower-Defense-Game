@@ -30,8 +30,9 @@ public class testenemybehavior : MonoBehaviour
         public float speed;
         public int path_index = 0;     
     //----------------------------------------------------------------------
-    public void Scan_for_Obstacles(){
-        
+    public void Scan_for_Obstacles()
+    {
+        blockedtiles.Clear();   
         for(float x = -11.0f; x < 12.0f; x+=0.5f)
         {
             for(float z = -9; z < 10; z += 0.5f)
@@ -130,7 +131,6 @@ public class testenemybehavior : MonoBehaviour
             if(refreshpath)
             {
                 path_creation_time = Time.time;
-                blockedtiles.Clear();
                 targetpath = PathMaker();
                 path_index = 0;
             } 

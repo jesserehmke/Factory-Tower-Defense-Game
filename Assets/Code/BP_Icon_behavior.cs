@@ -7,6 +7,8 @@ public class BP_Icon_behavior : MonoBehaviour
     public void OpenBlueprint()
     {
         Bp.SetActive(true);
+        RectTransform bp_rTransform = Bp.GetComponent<RectTransform>();
+        bp_rTransform.anchoredPosition = new Vector2(20, -270);
         this.gameObject.SetActive(false);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
