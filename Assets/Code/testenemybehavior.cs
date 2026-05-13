@@ -28,7 +28,7 @@ public class testenemybehavior : MonoBehaviour
 
         //movement:
         public float speed;
-        public int path_index = 0;     
+        public int path_index = 0;
     //----------------------------------------------------------------------
     public void Scan_for_Obstacles()
     {
@@ -45,7 +45,7 @@ public class testenemybehavior : MonoBehaviour
         }
 
     }
-    public List<Vector3> PathMaker(){
+    public List<Vector3> DijkstraPathfinder(){
         Scan_for_Obstacles();
 
     //Setup for the Paths:----------------------------------------------------------------------------------------------------------------------
@@ -83,7 +83,6 @@ public class testenemybehavior : MonoBehaviour
                 //List<Vector3> nexttiles = new List<Vector3>{starttile + new Vector3(-0.5f,0,0), starttile + new Vector3(-0.5f,0,0.5f) , starttile + new Vector3(0,0,0.5f), starttile + new Vector3(0.5f,0,0.5f), starttile + new Vector3(0.5f,0,0), starttile + new Vector3(0.5f,0,-0.5f), starttile + new Vector3(0,0,-0.5f), starttile + new Vector3(-0.5f,0,-0.5f)};
                 foreach(Vector3 nexttile in nexttiles)
                 {
-                    
                     test++;
                     // foreach(Vector3 item in blockedtiles)
                     // {
@@ -91,9 +90,6 @@ public class testenemybehavior : MonoBehaviour
                     // }
                     //Debug.Log("nexttile "+ nexttile);
                 
-
-
-                    
                     //Debug.Log("distance: " + Vector3.Distance(nexttile, heart.transform.position));
                     if(Vector3.Distance(nexttile, new Vector3(heart.transform.position.x, nexttile.y, heart.transform.position.z)) <= 0.6)
                     {
@@ -106,7 +102,7 @@ public class testenemybehavior : MonoBehaviour
                     {
                         newpaths.Add(new List<Vector3>(paths[i]));
                         newpaths[^1].Add(nexttile);
-                        //Debug.DrawLine(newpaths[^1][0], newpaths[^1][^1], Color.green, 100f);
+                        
                         
                         //nextblocked.Add(nexttile);
                         blockedtiles.Add(nexttile);
@@ -131,7 +127,7 @@ public class testenemybehavior : MonoBehaviour
             if(refreshpath)
             {
                 path_creation_time = Time.time;
-                targetpath = PathMaker();
+                targetpath = DijkstraPathfinder();
                 path_index = 0;
             } 
         }
@@ -150,7 +146,7 @@ public class testenemybehavior : MonoBehaviour
             case "wait":
                 if(Time.time > 0.1f)
                 {
-                    targetpath = PathMaker();
+                    targetpath = DijkstraPathfinder();
                     behavior_mode = "move";
                 }
                 break;
