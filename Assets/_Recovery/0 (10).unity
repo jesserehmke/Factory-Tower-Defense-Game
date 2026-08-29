@@ -3835,7 +3835,7 @@ MonoBehaviour:
   Heart: {fileID: 1224807239}
   debugpos: {x: 0, y: 0, z: 0}
   debugf: 3
-  snapShotIndex: 0
+  snapShotIndex: -1
   AStarPrefab: {fileID: 179940266}
   visTiles: []
   visTilesCountList: 

@@ -21,8 +21,12 @@ public class newtestenemybehavior : MonoBehaviour
     public Vector3 debugpos;
     public float debugf = 3;
     public List<List<PathNode>> aStarDisplay = new List<List<PathNode>>();
-    public int snapShotIndex;
+    public int snapShotIndex = -1;
     public GameObject AStarPrefab;
+
+    //Visualizer for Debugging (vis) --------------------------------------------
+    public List<GameObject> visTiles = new List<GameObject>();
+    public List<int> visTilesCountList = new List<int>(); 
     
 
     public PathNode AStarPathFinder()
@@ -42,7 +46,7 @@ public class newtestenemybehavior : MonoBehaviour
         List<PathNode> pathNodes = new List<PathNode> {pathNodeZero};
         List<Vector3> occupiedPositions = new List<Vector3>();
 
-        for(int i = 0; i < 5000; i++)
+        for(int i = 0; i < 500; i++)
         {
             aStarDisplay.Add(new List<PathNode>());
 
@@ -111,7 +115,7 @@ public class newtestenemybehavior : MonoBehaviour
                     debugf += 1;
 
                     Debug.DrawLine(debugpos, debugpos + Vector3.up*0.5f, Color.red, 1 + debugf);
-                
+
                     if(newPathNode.hCost == 0)
                     {
                         return newPathNode;
@@ -128,6 +132,24 @@ public class newtestenemybehavior : MonoBehaviour
 
                     newPathNode.fCost = newPathNode.gCost + newPathNode.hCost;
 
+
+                    // if(occupiedPositions.Contains(newPathNode.pos))
+                    // {
+                    //     foreach(PathNode occupiedTile in pathNodes)
+                    //     {
+                    //         Debug.Log("jjjjj");
+                    //         if(occupiedTile.pos == newPathNode.pos)
+                    //         {
+                    //             if(newPathNode.fCost < occupiedTile.fCost)
+                    //             {
+                    //                 occupiedTile.fCost = newPathNode.fCost;
+                    //             }
+                    //         }
+                    //         occupiedTile.open = true;
+                    //     }
+                    //     pathNodes.Remove(newPathNode);
+
+                    // }
                     if(occupiedPositions.Contains(newPathNode.pos))
                     {
                         PathNode nodeToRemove = null;
@@ -137,10 +159,12 @@ public class newtestenemybehavior : MonoBehaviour
                             {
                                 if(newPathNode.fCost < occupiedTile.fCost)
                                 {
+                                    Debug.Log("altes wird gelöscht");
                                     nodeToRemove = occupiedTile;
                                 }
                                 else
                                 {
+                                    Debug.Log("neues wird gelöscht");
                                     nodeToRemove = newPathNode;
                                 }
                             }
@@ -195,7 +219,7 @@ public class newtestenemybehavior : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.RightArrow) && aStarDisplay.Count-1 > snapShotIndex)
         {
             Debug.Log("aroow");
-
+            int visTilesCount = 0; 
             snapShotIndex++;
             foreach(PathNode tileNode in aStarDisplay[snapShotIndex])
             {
@@ -203,8 +227,23 @@ public class newtestenemybehavior : MonoBehaviour
                 TileObj.SetActive(true);
                 TextMeshPro tmp = TileObj.transform.Find("Text (TMP)").GetComponent<TextMeshPro>();
                 tmp.text = tileNode.fCost.ToString();
+                visTilesCount++;
+                visTiles.Add(TileObj);
             }
+            visTilesCountList.Add(visTilesCount);
+
         }
+        // if(Input.GetKeyDown(KeyCode.LeftArrow) && snapShotIndex >= 0)
+        // {
+        //     snapShotIndex--;
+        //     int visLastCount = visTilesCountList[^1];
+        //     for(int i = 1; i <= visLastCount; i++)
+        //     {
+        //         visTiles[^1].SetActive(false);
+        //         visTiles.Remove(visTiles[^1]);
+        //     }
+        // }
+
 
     }
 }

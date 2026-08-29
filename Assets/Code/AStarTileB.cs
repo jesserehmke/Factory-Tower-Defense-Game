@@ -12,7 +12,7 @@ public class AStarTileB : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             live--;
             if(live < 1)
