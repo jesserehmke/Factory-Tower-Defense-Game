@@ -3768,8 +3768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   heart: {fileID: 1224807239}
-  cube: {fileID: 1454537842}
-  wait_for_environment: 0
   rb: {fileID: 0}
   behavior_mode: wait
   refreshpath: 0
@@ -3827,14 +3825,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1396411792}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6353a25cdda4d5e47be0fe2cdcfe7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   Heart: {fileID: 1224807239}
-  debugpos: {x: 0, y: 0, z: 0}
-  debugf: 3
+  behavior_mode: wait
   snapShotIndex: 0
   AStarPrefab: {fileID: 179940266}
   visTiles: []

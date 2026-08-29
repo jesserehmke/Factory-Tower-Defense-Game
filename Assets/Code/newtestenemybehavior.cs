@@ -9,6 +9,7 @@ public class PathNode
     public string id;
     public Vector3 pos;
     public PathNode parent;
+    public PathNode child;
     public bool open;
     public float gCost;
     public float hCost;
@@ -18,8 +19,11 @@ public class PathNode
 public class newtestenemybehavior : MonoBehaviour
 {
     public GameObject Heart;
-    public Vector3 debugpos;
-    public float debugf = 3;
+    public string behavior_mode = "wait";
+    public PathNode targetPath;
+
+
+    //A-Star Algorythm ----------------------------------------------------------
     public List<List<PathNode>> aStarDisplay = new List<List<PathNode>>();
     public int snapShotIndex = -1;
     public GameObject AStarPrefab;
@@ -46,7 +50,7 @@ public class newtestenemybehavior : MonoBehaviour
         List<PathNode> pathNodes = new List<PathNode> {pathNodeZero};
         List<Vector3> occupiedPositions = new List<Vector3>();
 
-        for(int i = 0; i < 500; i++)
+        for(int i = 0; i < 5000; i++)
         {
             aStarDisplay.Add(new List<PathNode>());
 
@@ -110,15 +114,16 @@ public class newtestenemybehavior : MonoBehaviour
                         open = true
                     };
 
-                    debugpos = newPathNode.pos;
-
-                    debugf += 1;
-
-                    Debug.DrawLine(debugpos, debugpos + Vector3.up*0.5f, Color.red, 1 + debugf);
-
                     if(newPathNode.hCost == 0)
                     {
-                        return newPathNode;
+                        PathNode pathStep = newPathNode;
+                        while(pathStep.parent != null)
+                        {
+                            pathStep.parent.child = pathStep;
+                            pathStep = pathStep.parent;
+                        }
+
+                        return pathStep;
                     }
 
                     pathNodes.Add(newPathNode);
@@ -201,6 +206,42 @@ public class newtestenemybehavior : MonoBehaviour
      
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Behavior()
+    {
+        switch(behavior_mode){
+            case "wait":
+                if(Time.time > 0.1f)
+                {
+                    targetPath = AStarPathFinder();
+                    behavior_mode = "move";
+                }
+                break;
+            case "move":
+               
+
+                // //next path index when close enough to the current one
+                // if(path_index < targetpath.Count-1 && Vector3.Distance(transform.position, targetpath[path_index]) < 0.2f)
+                // {
+                //     path_index += 1;
+                // }
+                // //switching to attack modde when reaching the target
+                // else if(path_index == targetpath.Count -1 && Vector3.Distance(transform.position, targetpath[path_index]) < 0.5f)
+                // {
+                //     behavior_mode = "attack";
+                // }
+                // Vector3 intendedmovement = transform.position + (targetpath[path_index] - transform.position).normalized * 0.06f;
+                // Vector3 manipulatingmovement = travelator.transform.forward * travelator_impact * 0.08f;            
+
+                // rb.MovePosition(intendedmovement + manipulatingmovement);
+                // Debug.Log(intendedmovement + manipulatingmovement + " distance: " + Vector3.Distance(transform.position, intendedmovement + manipulatingmovement));
+                
+                // travelator_impact = 0;
+                break;
+            case "attack":
+                // code block
+                break;
+        }
+    }
     void Start()
     {
 
@@ -233,18 +274,18 @@ public class newtestenemybehavior : MonoBehaviour
             visTilesCountList.Add(visTilesCount);
 
         }
-        // if(Input.GetKeyDown(KeyCode.LeftArrow) && snapShotIndex >= 0)
-        // {
-        //     snapShotIndex--;
-        //     int visLastCount = visTilesCountList[^1];
-        //     for(int i = 1; i <= visLastCount; i++)
-        //     {
-        //         visTiles[^1].SetActive(false);
-        //         visTiles.Remove(visTiles[^1]);
-        //     }
-        // }
+    }
 
+
+    void FixedUpdate()
+    {
+        Behavior();
+
+        
+
+       
 
     }
+
 }
 

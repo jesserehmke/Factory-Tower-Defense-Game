@@ -7,8 +7,6 @@ public class testenemybehavior : MonoBehaviour
 {
     //Setup:----------------------------------------------------------------
         public GameObject heart;
-        public GameObject cube;
-        public int wait_for_environment = 0;
         public Rigidbody rb;
         public string behavior_mode = "wait";
         public bool refreshpath = false;
@@ -59,7 +57,7 @@ public class testenemybehavior : MonoBehaviour
         List<Vector3> nextblocked = new List<Vector3>();
         int outdated_paths = 0;
         int test = 0;
-    //------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------------------
 
         while(true){
             //With every run this loop adds new paths to the newPaths list and deletes the outdated paths
@@ -172,7 +170,7 @@ public class testenemybehavior : MonoBehaviour
             case "attack":
                 // code block
                 break;
-}
+        }
 
        
 
