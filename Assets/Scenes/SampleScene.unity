@@ -597,7 +597,7 @@ Transform:
   m_GameObject: {fileID: 210207814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710564, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 3.25, y: 2.25, z: 2}
+  m_LocalPosition: {x: 3.75, y: 2.25, z: 2.0000017}
   m_LocalScale: {x: 0.5, y: 0.5, z: 11.99}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2766,7 +2766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!120 &1097143523
 LineRenderer:
   serializedVersion: 2
@@ -2815,8 +2815,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: -3.75, y: 2.25, z: -1.5}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -3268,7 +3267,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3365,7 +3364,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -3762,7 +3761,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1396411792}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 773eb690a19ba084c8be271a52b00857, type: 3}
   m_Name: 
@@ -3780,7 +3779,7 @@ MonoBehaviour:
   travelator_impact: 0
   targetpath: []
   blockedtiles: []
-  path_creation_time: 0
+  pathTime: 0
   speed: 3
   path_index: 0
 --- !u!114 &1396411799
@@ -3825,13 +3824,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1396411792}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6353a25cdda4d5e47be0fe2cdcfe7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   Heart: {fileID: 1224807239}
+  HpManager: {fileID: 1396411799}
   behavior_mode: wait
+  rb: {fileID: 1396411793}
+  travelator: {fileID: 2141117615}
+  travelator_impact: 0
+  pathTime: 0
   snapShotIndex: 0
   AStarPrefab: {fileID: 179940266}
   visTiles: []
@@ -4374,6 +4378,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 19bc1aab138ee4f488c24724994dbe10, type: 3}
       propertyPath: m_Name
+      value: Shredder
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 19bc1aab138ee4f488c24724994dbe10, type: 3}
+      propertyPath: m_TagString
       value: Shredder
       objectReference: {fileID: 0}
     m_RemovedComponents: []

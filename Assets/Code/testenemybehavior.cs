@@ -22,7 +22,7 @@ public class testenemybehavior : MonoBehaviour
         //pathfinding:
         public List<Vector3> targetpath;
         public List<Vector3> blockedtiles = new List<Vector3>();
-        public float path_creation_time = 0;
+        public float pathTime = 0;
 
         //movement:
         public float speed;
@@ -120,11 +120,11 @@ public class testenemybehavior : MonoBehaviour
     }
     public void Refresh_Path(){
          
-        if(Time.time - path_creation_time > 0.1)
+        if(Time.time - pathTime > 0.1)
         {
             if(refreshpath)
             {
-                path_creation_time = Time.time;
+                pathTime = Time.time;
                 targetpath = DijkstraPathfinder();
                 path_index = 0;
             } 

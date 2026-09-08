@@ -19,14 +19,20 @@ public class PathNode
 public class newtestenemybehavior : MonoBehaviour
 {
     public GameObject Heart;
+    public hp_manager HpManager;
     public string behavior_mode = "wait";
     public PathNode targetPath;
+    public Rigidbody rb;
+    public GameObject travelator;
+    public int travelator_impact = 0;
+    public float pathTime = 0;
 
 
     //A-Star Algorythm ----------------------------------------------------------
     public List<List<PathNode>> aStarDisplay = new List<List<PathNode>>();
     public int snapShotIndex = -1;
     public GameObject AStarPrefab;
+    public PathNode theOne;
 
     //Visualizer for Debugging (vis) --------------------------------------------
     public List<GameObject> visTiles = new List<GameObject>();
@@ -114,13 +120,19 @@ public class newtestenemybehavior : MonoBehaviour
                         open = true
                     };
 
-                    if(newPathNode.hCost == 0)
+                    if(newPathNode.hCost < 1)
                     {
+                        Debug.Log("found");
                         PathNode pathStep = newPathNode;
+
                         while(pathStep.parent != null)
                         {
                             pathStep.parent.child = pathStep;
                             pathStep = pathStep.parent;
+                            if(pathStep == theOne)
+                            {
+                                Debug.Log("still in");
+                            }
                         }
 
                         return pathStep;
@@ -164,7 +176,12 @@ public class newtestenemybehavior : MonoBehaviour
                             {
                                 if(newPathNode.fCost < occupiedTile.fCost)
                                 {
+                                    Instantiate(Heart, newPathNode.pos, Quaternion.Euler(90, 0, 0));
                                     Debug.Log("altes wird gelöscht");
+                                    if(newPathNode.pos == new Vector3(10,2.25f,2))
+                                    {
+                                        theOne = newPathNode;
+                                    }
                                     nodeToRemove = occupiedTile;
                                 }
                                 else
@@ -174,6 +191,7 @@ public class newtestenemybehavior : MonoBehaviour
                                 }
                             }
                         }
+
                         pathNodes.Remove(nodeToRemove);
                     }
 
@@ -206,18 +224,39 @@ public class newtestenemybehavior : MonoBehaviour
      
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void Refresh_Path()
+    {
+        if(Time.time - pathTime > 0.1)
+        {
+            pathTime = Time.time;
+            targetPath = AStarPathFinder();
+        }
+    }
     void Behavior()
     {
         switch(behavior_mode){
             case "wait":
                 if(Time.time > 0.1f)
                 {
+                    Debug.Log("kkkkkkk");
                     targetPath = AStarPathFinder();
+                    Debug.Log("targetpath pos " + targetPath.pos);
                     behavior_mode = "move";
                 }
                 break;
             case "move":
-               
+                Debug.Log("targetPath " + targetPath);
+                Debug.Log("targetpos " + targetPath.pos);
+                if(Vector3.Distance(transform.position, targetPath.pos) < 0.2f)
+                {
+                    Debug.Log("ääääääääää");
+                    targetPath = targetPath.child;
+                }
+
+                Vector3 intendedMovement = transform.position + (targetPath.pos - transform.position).normalized * 0.02f;
+                Vector3 manipulatingMovement = travelator.transform.forward * travelator_impact * 0.08f;
+                rb.MovePosition(intendedMovement + manipulatingMovement);
+                
 
                 // //next path index when close enough to the current one
                 // if(path_index < targetpath.Count-1 && Vector3.Distance(transform.position, targetpath[path_index]) < 0.2f)
@@ -242,17 +281,20 @@ public class newtestenemybehavior : MonoBehaviour
                 break;
         }
     }
+    
     void Start()
     {
 
-        PathNode foundPath = AStarPathFinder();
-        while(foundPath.parent != null)
-        {
-            Debug.DrawLine(foundPath.pos, foundPath.pos + Vector3.up, Color.green, 5f);
-            foundPath = foundPath.parent;
-        }
+        rb = GetComponent<Rigidbody>();
+        HpManager = GetComponent<hp_manager>();
+        HpManager.hp = 100;
 
-
+        // PathNode foundPath = AStarPathFinder();
+        // while(foundPath.parent != null)
+        // {
+        //Debug.DrawLine(foundPath.pos, foundPath.pos + Vector3.up, Color.green, 5f);
+        //     foundPath = foundPath.parent;
+        // }
     }
     // Update is called once per frame
     void Update()
@@ -287,5 +329,22 @@ public class newtestenemybehavior : MonoBehaviour
 
     }
 
+    void OnTriggerStay(Collider other_collider)
+    {
+        
+
+        if(other_collider.gameObject.tag == "Travelator")
+        {
+            travelator = other_collider.gameObject;
+            travelator_impact = 1;
+            Refresh_Path();
+
+        }
+                
+        if(other_collider.gameObject.tag == "Shredder")
+        {
+            HpManager.hp -= 1;
+        }
+    }
 }
 
